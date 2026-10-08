@@ -1,3 +1,4 @@
+import { PipelineDrawing } from "./components/pipeline-drawing";
 import { site } from "./config/site";
 
 const npmUrl = "https://www.npmjs.com/package/@raulmoracode/create";
@@ -38,8 +39,15 @@ function App() {
         <section id="run" className="border-b border-ink/15 py-8">
           <h2 className="font-mono text-sm uppercase tracking-widest">Run</h2>
           <p className="mt-2 leading-relaxed">
-            Run one command with Node 24 and pnpm 12.6.0 to scaffold a React +
-            Vite or Next.js project.
+            A run is four stations. The drawing below carries it, so there is no
+            paragraph to decode.
+          </p>
+          <div className="mt-6 border border-ink/15">
+            <PipelineDrawing />
+          </div>
+          <p className="mt-3 font-mono text-xs leading-relaxed opacity-70">
+            bare command: raulmoracode-create — add --verbose to watch every
+            external command
           </p>
         </section>
 

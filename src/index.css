@@ -130,3 +130,37 @@
   border: 1.5px dashed currentColor;
   border-radius: 0.375rem;
 }
+
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-drawn .draw {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.6s ease-out;
+}
+
+.station-label {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.is-drawn .station-label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw {
+    stroke-dashoffset: 0;
+  }
+
+  .is-drawn .draw,
+  .station-label {
+    transition: none;
+  }
+
+  .station-label {
+    opacity: 1;
+  }
+}
