@@ -5,7 +5,7 @@ import { ManualCards } from "../components/manual-cards";
 afterEach(cleanup);
 
 describe("ManualCards", () => {
-  it("renders four cards with toggles", () => {
+  it("renders four cards without open dialogs", () => {
     render(<ManualCards />);
     const buttons = screen.getAllByRole("button", { expanded: false });
     expect(buttons).toHaveLength(4);
@@ -17,16 +17,50 @@ describe("ManualCards", () => {
     ]) {
       expect(screen.getByText(title)).toBeDefined();
     }
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
-  it("toggles a card open on click", () => {
+  it("opens the dialog on hover", () => {
     render(<ManualCards />);
     const button = screen.getByRole("button", {
       name: /Opinions, kept fixed/,
     });
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    fireEvent.click(button);
-    expect(button.getAttribute("aria-expanded")).toBe("true");
+    fireEvent.mouseEnter(button);
+    expect(screen.getByRole("dialog")).toBeDefined();
     expect(screen.getByText("pnpm only, exact versions.")).toBeDefined();
+  });
+
+  it("closes the dialog on escape", () => {
+    render(<ManualCards />);
+    const button = screen.getByRole("button", {
+      name: /Opinions, kept fixed/,
+    });
+    fireEvent.click(button);
+    expect(screen.getByRole("dialog")).toBeDefined();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("closes the dialog when leaving the panel", () => {
+    render(<ManualCards />);
+    const button = screen.getByRole("button", {
+      name: /Make it yours/,
+    });
+    fireEvent.mouseEnter(button);
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeDefined();
+    fireEvent.mouseLeave(dialog);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("closes the dialog when leaving the window", () => {
+    render(<ManualCards />);
+    const button = screen.getByRole("button", {
+      name: /Reference ledger/,
+    });
+    fireEvent.click(button);
+    expect(screen.getByRole("dialog")).toBeDefined();
+    fireEvent.mouseOut(document, { relatedTarget: null });
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });

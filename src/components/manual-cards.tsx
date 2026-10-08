@@ -1,4 +1,10 @@
-import { useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   COMMANDS,
   FORK_STEPS,
@@ -126,48 +132,121 @@ function CardBody({ id }: { id: CardId }) {
 
 export function ManualCards({ className }: { className?: string }) {
   const [openId, setOpenId] = useState<CardId | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const close = useCallback(() => setOpenId(null), []);
+
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    if (grid) {
+      grid.addEventListener("mouseleave", close);
+    }
+    const onDocumentOut = (event: MouseEvent) => {
+      if (!event.relatedTarget) {
+        close();
+      }
+    };
+    document.addEventListener("mouseout", onDocumentOut);
+    const panel = panelRef.current;
+    if (openId && panel) {
+      panel.addEventListener("mouseleave", close);
+    }
+    return () => {
+      grid?.removeEventListener("mouseleave", close);
+      document.removeEventListener("mouseout", onDocumentOut);
+      panel?.removeEventListener("mouseleave", close);
+    };
+  }, [openId, close]);
+
+  useEffect(() => {
+    if (!openId) {
+      return;
+    }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        close();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [openId, close]);
+
+  const openOnHover = (id: CardId) => {
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(hover: none)").matches
+    ) {
+      return;
+    }
+    setOpenId(id);
+  };
+
+  const openCard = CARDS.find((card) => card.id === openId);
 
   return (
-    <div className={cn("grid gap-4 py-8 md:grid-cols-2", className)}>
-      {CARDS.map((card) => {
-        const open = openId === card.id;
-        return (
-          <div
-            key={card.id}
-            id={card.id}
-            data-open={open}
-            className="group scroll-mt-4 border border-ink/15 bg-paper"
+    <div
+      ref={gridRef}
+      data-testid="manual-cards"
+      className={cn("grid gap-4 py-8 md:grid-cols-2", className)}
+    >
+      {CARDS.map((card) => (
+        <div
+          key={card.id}
+          id={card.id}
+          className="group scroll-mt-4 border border-ink/15 bg-paper"
+        >
+          <button
+            type="button"
+            aria-expanded={openId === card.id}
+            aria-haspopup="dialog"
+            onMouseEnter={() => openOnHover(card.id)}
+            onFocus={() => openOnHover(card.id)}
+            onClick={() => setOpenId(openId === card.id ? null : card.id)}
+            className="flex w-full items-baseline gap-3 px-5 py-4 text-left"
           >
-            <button
-              type="button"
-              aria-expanded={open}
-              aria-controls={`${card.id}-body`}
-              onClick={() => setOpenId(open ? null : card.id)}
-              className="flex w-full items-baseline gap-3 px-5 py-4 text-left"
+            <span className="font-mono text-xs tracking-widest opacity-70">
+              {card.number}
+            </span>
+            <span className="block min-w-0 flex-1 font-medium leading-snug">
+              {card.title}
+            </span>
+            <span
+              aria-hidden="true"
+              className="plus shrink-0 font-mono text-lg leading-none opacity-70"
             >
-              <span className="font-mono text-xs tracking-widest opacity-70">
-                {card.number}
-              </span>
-              <span className="block min-w-0 flex-1 font-medium leading-snug">
-                {card.title}
-              </span>
-              <span
-                aria-hidden="true"
-                className="plus shrink-0 font-mono text-lg leading-none opacity-70"
-              >
-                +
-              </span>
-            </button>
-            <div id={`${card.id}-body`} className="reveal px-5">
-              <div className="min-h-0">
-                <div className="border-t border-ink/15 py-4 text-sm leading-relaxed">
-                  <CardBody id={card.id} />
-                </div>
-              </div>
+              +
+            </span>
+          </button>
+        </div>
+      ))}
+
+      {openCard && (
+        <div className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8">
+          <button
+            type="button"
+            aria-label="Close dialog"
+            onClick={close}
+            className="absolute inset-0 cursor-default bg-ink/40"
+          />
+          <div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={openCard.title}
+            className="modal-panel relative max-h-[85vh] w-full max-w-2xl overflow-y-auto border border-ink/15 bg-paper px-6 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-5"
+          >
+            <div className="text-sm leading-relaxed">
+              <CardBody id={openCard.id} />
             </div>
           </div>
-        );
-      })}
+        </div>
+      )}
     </div>
   );
 }

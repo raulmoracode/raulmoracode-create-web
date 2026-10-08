@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add copyable install command pill backed by the registry component.
 - Show sections 02 to 05 as hover-reveal cards below the drawing.
+- Show sections 02 to 05 as cards opening the details in a hover modal.
 
 - Add workshop dossier shell with file strip, colophon, and run/inside/opinions/yours/reference sections.
 - Add animated isometric pipeline drawing for the run section.
