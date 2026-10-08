@@ -1,7 +1,9 @@
 import { PipelineDrawing } from "./components/pipeline-drawing";
 import { site } from "./config/site";
+import { COMMANDS, FORK_STEPS, OPINIONS, REQUIREMENTS, STACK } from "./content";
 
 const npmUrl = "https://www.npmjs.com/package/@raulmoracode/create";
+const repoUrl = "https://github.com/raulmoracode/raulmoracode-create";
 
 function App() {
   return (
@@ -29,15 +31,22 @@ function App() {
             An internal tool, kept in the open
           </h1>
           <p className="mt-4 max-w-prose leading-relaxed">
-            This CLI is built to the author&apos;s taste for starting React +
-            Vite and Next.js projects. Anyone can fork it and make their own
-            version. There are no support promises — use it as-is and adapt what
-            you need.
+            @raulmoracode/create scaffolds React + Vite and Next.js projects
+            with Tailwind, shadcn, Biome, and Vitest. It is built to my taste
+            for starting projects the same way every time. Anyone can fork it
+            and shape their own version. No support promises, no roadmap to
+            request from.
+          </p>
+          <p className="mt-3 max-w-prose font-mono text-xs leading-relaxed opacity-70">
+            source: {repoUrl} · this page documents the tool, it does not sell
+            it
           </p>
         </section>
 
         <section id="run" className="border-b border-ink/15 py-8">
-          <h2 className="font-mono text-sm uppercase tracking-widest">Run</h2>
+          <h2 className="font-mono text-sm uppercase tracking-widest">
+            01 — A run, drawn
+          </h2>
           <p className="mt-2 leading-relaxed">
             A run is four stations. The drawing below carries it, so there is no
             paragraph to decode.
@@ -53,40 +62,105 @@ function App() {
 
         <section id="inside" className="border-b border-ink/15 py-8">
           <h2 className="font-mono text-sm uppercase tracking-widest">
-            Inside
+            02 — What lands in a new project
           </h2>
           <p className="mt-2 leading-relaxed">
-            Each scaffold ships with Tailwind CSS 4.3.3, shadcn, Biome 2.5.14,
-            and Vitest 5.0.2 configured the same way.
+            From @raulmoracode/create 1.0.8. Every version below is pinned
+            exact, no ranges.
           </p>
+          <table className="mt-6 w-full border-t border-ink/15 text-left text-sm">
+            <thead>
+              <tr className="font-mono text-xs uppercase tracking-widest opacity-70">
+                <th scope="col" className="py-3 pr-4 font-medium">
+                  Package
+                </th>
+                <th scope="col" className="py-3 pr-4 font-medium">
+                  Version
+                </th>
+                <th scope="col" className="py-3 font-medium">
+                  Note
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink/15">
+              {STACK.map((row) => (
+                <tr key={row.dep}>
+                  <td className="py-3 pr-4 font-medium">{row.dep}</td>
+                  <td className="py-3 pr-4 font-mono text-[13px]">
+                    {row.version}
+                  </td>
+                  <td className="py-3 opacity-70">{row.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
 
         <section id="opinions" className="border-b border-ink/15 py-8">
           <h2 className="font-mono text-sm uppercase tracking-widest">
-            Opinions
+            03 — Opinions, kept fixed
           </h2>
           <p className="mt-2 leading-relaxed">
-            Defaults stay fixed and opinionated so formatting, linting, and
-            testing behave identically in every new project.
+            Workshop rules. Each one removes a decision from daily work.
           </p>
+          <ol className="mt-6 list-decimal space-y-4 border-t border-ink/15 pl-5 pt-6 text-sm">
+            {OPINIONS.map((opinion) => (
+              <li key={opinion.rule} className="pl-2">
+                <p className="font-medium">{opinion.rule}</p>
+                <p className="mt-1 opacity-70">{opinion.why}</p>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <section id="yours" className="border-b border-ink/15 py-8">
-          <h2 className="font-mono text-sm uppercase tracking-widest">Yours</h2>
+          <h2 className="font-mono text-sm uppercase tracking-widest">
+            04 — Make it yours
+          </h2>
           <p className="mt-2 leading-relaxed">
-            Fork the repository and change any default to match your own taste,
-            with no permission or support ticket needed.
+            Fork-first. This is an internal tool built to taste, not a fixed
+            preset. Keep what fits, change the rest, keep upstream reachable.
           </p>
+          <ol className="mt-6 list-decimal space-y-4 border-t border-ink/15 pl-5 pt-6 text-sm">
+            {FORK_STEPS.map((step, index) => (
+              <li key={step.title} className="pl-2">
+                <p className="font-medium">
+                  <span className="mr-2 font-mono text-xs opacity-70">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {step.title}
+                </p>
+                <p className="mt-1 opacity-70">{step.detail}</p>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <section id="reference" className="py-8">
           <h2 className="font-mono text-sm uppercase tracking-widest">
-            Reference
+            05 — Reference ledger
           </h2>
-          <p className="mt-2 leading-relaxed">
-            The reference lists commands, flags, and exact stack versions so
-            this file stays the source of truth.
-          </p>
+          <h3 className="mt-6 font-mono text-xs uppercase tracking-widest opacity-70">
+            Requirements
+          </h3>
+          <ul className="mt-3 divide-y divide-ink/15 border-t border-ink/15 text-sm">
+            {REQUIREMENTS.map((req) => (
+              <li key={req} className="py-2.5 font-mono text-[13px]">
+                {req}
+              </li>
+            ))}
+          </ul>
+          <h3 className="mt-10 font-mono text-xs uppercase tracking-widest opacity-70">
+            Commands
+          </h3>
+          <dl className="mt-3 divide-y divide-ink/15 border-t border-ink/15 text-sm">
+            {COMMANDS.map((command) => (
+              <div key={command.cmd} className="py-3">
+                <dt className="opacity-70">{command.label}</dt>
+                <dd className="mt-1 font-mono text-[13px]">{command.cmd}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </main>
 
