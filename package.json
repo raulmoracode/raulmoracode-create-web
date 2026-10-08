@@ -27,6 +27,7 @@
   },
   "packageManager": "pnpm@12.6.0",
   "dependencies": {
+    "@raulmoracode/icons": "1.0.2",
     "radix-ui": "1.7.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
