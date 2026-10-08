@@ -8,15 +8,17 @@
  */
 
 export const site = {
-  name: "raulmoracode-create-web",
-  title: "raulmoracode-create-web",
-  description: "",
-  url: "",
+  name: "@raulmoracode/create",
+  title: "@raulmoracode/create — field notes",
+  description:
+    "Internal CLI that scaffolds my React + Vite and Next.js projects. Built to my taste, forkable to yours.",
+  url: "https://github.com/raulmoracode/raulmoracode-create-web",
   favicon: "https://cdn.raulmoracode.com/icons/favicon.ico",
   socialImage: "/imagen.png",
-  socialImageAlt: "raulmoracode-create-web — React 19 + Vite 8 + TypeScript 6",
+  socialImageAlt:
+    "@raulmoracode/create — field notes on scaffolding React + Vite and Next.js projects",
   author: "Raul Mora",
   twitter: "@raulmoracode",
-  locale: "es_ES",
+  locale: "en_US",
   themeColor: "#ffffff",
 } as const;
