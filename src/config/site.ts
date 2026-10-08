@@ -9,7 +9,7 @@
 
 export const site = {
   name: "@raulmoracode/create",
-  title: "@raulmoracode/create — field notes",
+  title: "create",
   description:
     "Internal CLI that scaffolds my React + Vite and Next.js projects. Built to my taste, forkable to yours.",
   url: "https://github.com/raulmoracode/raulmoracode-create-web",
