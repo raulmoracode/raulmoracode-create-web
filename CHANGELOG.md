@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Trim the pipeline drawing to bare matte cubes with straight links.
+
 - Add workshop dossier shell with file strip, colophon, and run/inside/opinions/yours/reference sections.
 - Add animated isometric pipeline drawing for the run section.
 - Add pinned stack ledger, opinions, fork steps, and command reference.
