@@ -7,25 +7,27 @@ afterEach(cleanup);
 describe("PipelineDrawing", () => {
   it("renders the four station labels", () => {
     render(<PipelineDrawing />);
-    expect(screen.getByRole("img", { name: /cli pipeline/i })).toBeDefined();
+    expect(
+      screen.getByRole("img", { name: /scaffolder steps/i }),
+    ).toBeDefined();
     for (const label of [
       "01",
       "02",
       "03",
       "04",
-      "ask",
-      "scaffold",
-      "configure",
-      "land",
+      "technology",
+      "dependencies",
+      "name",
+      "github",
     ]) {
       expect(screen.getByText(label)).toBeDefined();
     }
   });
 
-  it("encodes the pinned generator versions and the never-force rule", () => {
+  it("shows stations without caption clutter", () => {
     render(<PipelineDrawing />);
-    expect(screen.getByText("create-vite@9.2.1")).toBeDefined();
-    expect(screen.getByText("create-next-app@16.3.6")).toBeDefined();
-    expect(screen.getByText("never --force")).toBeDefined();
+    expect(screen.queryByText("create-vite@9.2.1")).toBeNull();
+    expect(screen.queryByText("create-next-app@16.3.6")).toBeNull();
+    expect(screen.queryByText("never --force")).toBeNull();
   });
 });

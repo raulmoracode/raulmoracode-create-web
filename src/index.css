@@ -3,6 +3,8 @@
 @theme {
   --color-paper: #faf9f6;
   --color-ink: #1c1917;
+  --color-main: oklch(0.145 0 0);
+  --color-dim: oklch(0.556 0 0);
 }
 
 @layer base {
@@ -150,17 +152,62 @@
   opacity: 1;
 }
 
+.plus {
+  transition: transform 0.25s ease;
+}
+
+.group:hover .plus,
+.group:focus-within .plus {
+  transform: rotate(45deg);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-backdrop {
+  animation: backdrop-in 0.2s ease-out;
+}
+
+.modal-panel {
+  animation: modal-in 0.25s ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .draw {
     stroke-dashoffset: 0;
   }
 
   .is-drawn .draw,
-  .station-label {
+  .station-label,
+  .plus {
     transition: none;
   }
 
   .station-label {
     opacity: 1;
+  }
+
+  .modal-backdrop,
+  .modal-panel {
+    animation: none;
   }
 }
