@@ -3,6 +3,8 @@
 @theme {
   --color-paper: #faf9f6;
   --color-ink: #1c1917;
+  --color-main: oklch(0.145 0 0);
+  --color-dim: oklch(0.556 0 0);
 }
 
 @layer base {

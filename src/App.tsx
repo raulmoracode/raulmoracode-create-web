@@ -1,3 +1,4 @@
+import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
 import { PipelineDrawing } from "./components/pipeline-drawing";
 import { site } from "./config/site";
 import { COMMANDS, FORK_STEPS, OPINIONS, REQUIREMENTS, STACK } from "./content";
@@ -21,12 +22,10 @@ function App() {
           aria-labelledby="colophon"
           className="border-b border-ink/15 py-10"
         >
-          <p className="stamp inline-block px-3 py-1 font-mono text-xs uppercase tracking-widest">
-            Colophon
-          </p>
+          <PartOfRaulmoracode project="create" highlightColor="#118C4F" />
           <h1
             id="colophon"
-            className="mt-4 text-3xl font-semibold text-balance"
+            className="mt-6 text-3xl font-semibold text-balance"
           >
             An internal tool, kept in the open
           </h1>
