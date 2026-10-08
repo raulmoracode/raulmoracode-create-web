@@ -3,6 +3,8 @@
 @theme {
   --color-paper: #faf9f6;
   --color-ink: #1c1917;
+  --color-main: oklch(0.145 0 0);
+  --color-dim: oklch(0.556 0 0);
 }
 
 @layer base {
@@ -131,6 +133,25 @@
   border-radius: 0.375rem;
 }
 
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-drawn .draw {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.6s ease-out;
+}
+
+.station-label {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.is-drawn .station-label {
+  opacity: 1;
+}
+
 .plus {
   transition: transform 0.25s ease;
 }
@@ -171,46 +192,22 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .plus {
-    transition: none;
-  }
-
-  .modal-backdrop,
-  .modal-panel {
-    animation: none;
-  }
-}
-
-.draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-
-.is-drawn .draw {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.6s ease-out;
-}
-
-.station-label {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.is-drawn .station-label {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
   .draw {
     stroke-dashoffset: 0;
   }
 
   .is-drawn .draw,
-  .station-label {
+  .station-label,
+  .plus {
     transition: none;
   }
 
   .station-label {
     opacity: 1;
+  }
+
+  .modal-backdrop,
+  .modal-panel {
+    animation: none;
   }
 }
