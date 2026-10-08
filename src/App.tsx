@@ -1,3 +1,4 @@
+import { CopyInstallCommand } from "./components/copy-install-command";
 import { PipelineDrawing } from "./components/pipeline-drawing";
 import { site } from "./config/site";
 import { COMMANDS, FORK_STEPS, OPINIONS, REQUIREMENTS, STACK } from "./content";
@@ -41,6 +42,7 @@ function App() {
             source: {repoUrl} · this page documents the tool, it does not sell
             it
           </p>
+          <CopyInstallCommand command="npm install -g @raulmoracode/create" />
         </section>
 
         <section id="run" className="border-b border-ink/15 py-8">
