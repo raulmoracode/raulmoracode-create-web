@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rewrite colophon description to emphasize speed and AI agent adaptation
 - Express trigger styles as Tailwind utilities and drop the unused CSS classes left by the removed drawing and modal.
 - Open the detail panel from inline prose triggers instead of a grid of cards.
+- Ignore `package-lock.json`: this project is pnpm only and the npm lockfile had drifted out of sync with `package.json`.
 
 ### Removed
 
