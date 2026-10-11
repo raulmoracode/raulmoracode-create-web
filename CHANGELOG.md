@@ -28,5 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove pipeline drawing SVG section entirely.
 - Remove dead rules `.blueprint-grid`, `.stamp`, `.plus`, `.modal-backdrop`, `.modal-panel` and their keyframes.
+- Remove the copy install command pill and the empty `App.css`, neither of which was rendered.
 
 ### Fixed
