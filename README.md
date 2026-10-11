@@ -98,12 +98,17 @@ Change it there and both follow: nothing has to be edited in `index.html` or `la
 ## Project structure
 
 ```text
-├── index.html            # tab title + favicon (raulmoracode branding)
+├── index.html            # entry HTML (head tags injected by vite.config.ts)
+├── vite.config.ts        # react plugin + siteHead + @ alias
+├── package.json          # scripts + exact pinned versions
+├── tsconfig.json         # TypeScript config (@/* alias)
+├── vite.config.ts        # Vite + Tailwind + site head
 ├── .github/workflows/    # CI (install, check, test, build)
 ├── src/
 │   ├── main.tsx     # entry point
 │   ├── App.tsx      # root component
 │   ├── index.css    # Tailwind entry point
+│   ├── App.css      # root styles
 │   ├── components/  # shadcn components land here
 │   ├── hooks/       # registry hooks land here
 │   ├── lib/         # cn() in utils.ts
@@ -117,9 +122,13 @@ Change it there and both follow: nothing has to be edited in `index.html` or `la
 ├── vitest.config.ts      # test config
 ├── .vscode/              # VS Code settings + extensions
 ├── pnpm-workspace.yaml   # minimumReleaseAge policy + excludes
+├── .nvmrc                # pinned Node version
+├── .editorconfig         # editor defaults
 ├── LICENSE               # MIT license
 ├── CHANGELOG.md          # project changelog
-└── AGENTS.md             # guidelines for AI coding agents
+├── README.md             # project guide
+├── AGENTS.md             # guidelines for AI coding agents
+└── raulmoracode.json     # CLI manifest (upgrade tracking)
 ```
 
 ## Links
