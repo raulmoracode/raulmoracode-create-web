@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Lockfiles (pnpm is the package manager for this project)
+package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
