@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { InstallTrigger } from "./components/install-trigger";
 import type { CardId } from "./components/manual-cards";
 import { ManualCards } from "./components/manual-cards";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
@@ -55,7 +56,7 @@ function App() {
               >
                 Reference
               </button>{" "}
-              section has commands, requirements, and guides.
+              section has commands, requirements, and guides. <InstallTrigger />
             </p>
           </section>
 
