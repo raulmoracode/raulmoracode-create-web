@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add inline install trigger that copies the install command and confirms it in place.
 - Show sections 02 to 05 as hover-reveal cards below the drawing.
 - Show sections 02 to 05 as cards opening the details in a hover modal.
 - Simplify page chrome: no header, stamp, separators, or footer.

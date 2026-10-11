@@ -71,6 +71,8 @@ export const STACK: StackRow[] = [
   },
 ];
 
+export const INSTALL_COMMAND = "npm i -g @raulmoracode/create";
+
 export const REQUIREMENTS: string[] = [
   "Node 24",
   "pnpm 12",
@@ -80,7 +82,7 @@ export const REQUIREMENTS: string[] = [
 ];
 
 export const COMMANDS: CommandRow[] = [
-  { label: "Install globally", cmd: "npm i -g @raulmoracode/create" },
+  { label: "Install globally", cmd: INSTALL_COMMAND },
   { label: "Scaffold", cmd: "raulmoracode-create" },
   { label: "Verbose output", cmd: "raulmoracode-create --verbose" },
   { label: "Help", cmd: "raulmoracode-create --help" },
