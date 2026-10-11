@@ -32,3 +32,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove the copy install command pill and the empty `App.css`, neither of which was rendered.
 
 ### Fixed
+
+- Expose the open state of the feature panel to assistive tech with `aria-expanded` and `aria-controls` on the four prose triggers.

@@ -23,6 +23,8 @@ function App() {
               Terminal tool to start web projects faster.{" "}
               <button
                 type="button"
+                aria-controls="feature-panel"
+                aria-expanded={openId === "yours"}
                 onClick={() => setOpenId(openId === "yours" ? null : "yours")}
                 className={TRIGGER}
               >
@@ -31,6 +33,8 @@ function App() {
               it to adapt to your needs. The{" "}
               <button
                 type="button"
+                aria-controls="feature-panel"
+                aria-expanded={openId === "inside"}
                 onClick={() => setOpenId(openId === "inside" ? null : "inside")}
                 className={TRIGGER}
               >
@@ -39,6 +43,8 @@ function App() {
               comes with everything pinned exact.{" "}
               <button
                 type="button"
+                aria-controls="feature-panel"
+                aria-expanded={openId === "opinions"}
                 onClick={() =>
                   setOpenId(openId === "opinions" ? null : "opinions")
                 }
@@ -49,6 +55,8 @@ function App() {
               are baked in so you don't decide. The{" "}
               <button
                 type="button"
+                aria-controls="feature-panel"
+                aria-expanded={openId === "reference"}
                 onClick={() =>
                   setOpenId(openId === "reference" ? null : "reference")
                 }
