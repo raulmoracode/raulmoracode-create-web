@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   COMMANDS,
   FORK_STEPS,
@@ -14,14 +8,7 @@ import {
 } from "../content";
 import { cn } from "../lib/utils";
 
-type CardId = "inside" | "opinions" | "yours" | "reference";
-
-const CARDS: { id: CardId; number: string; title: string }[] = [
-  { id: "inside", number: "02", title: "What lands in a new project" },
-  { id: "opinions", number: "03", title: "Opinions, kept fixed" },
-  { id: "yours", number: "04", title: "Make it yours" },
-  { id: "reference", number: "05", title: "Reference ledger" },
-];
+export type CardId = "inside" | "opinions" | "yours" | "reference";
 
 function CardBody({ id }: { id: CardId }) {
   if (id === "inside") {
@@ -130,34 +117,37 @@ function CardBody({ id }: { id: CardId }) {
   );
 }
 
-export function ManualCards({ className }: { className?: string }) {
-  const [openId, setOpenId] = useState<CardId | null>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+/**
+ * Manual cards 02-05: a full-width detail panel rendered below the feature
+ * prose in App.tsx, which owns the open state and opens a card on click.
+ * Fully controlled through openId and onOpenChange, with internal state as a
+ * fallback when left uncontrolled. Escape closes the open card. With nothing
+ * open the panel collapses to zero height, is inert and aria-hidden, and a
+ * short hint paragraph is shown instead.
+ */
+interface ManualCardsProps {
+  className?: string;
+  openId?: CardId | null;
+  onOpenChange?: (id: CardId | null) => void;
+}
 
-  const close = useCallback(() => setOpenId(null), []);
+export function ManualCards({
+  className,
+  openId: controlledOpenId,
+  onOpenChange,
+}: ManualCardsProps = {}) {
+  const [internalOpenId, setInternalOpenId] = useState<CardId | null>(null);
 
-  useLayoutEffect(() => {
-    const grid = gridRef.current;
-    if (grid) {
-      grid.addEventListener("mouseleave", close);
+  const openId =
+    controlledOpenId !== undefined ? controlledOpenId : internalOpenId;
+
+  const close = useCallback(() => {
+    if (onOpenChange) {
+      onOpenChange(null);
+    } else {
+      setInternalOpenId(null);
     }
-    const onDocumentOut = (event: MouseEvent) => {
-      if (!event.relatedTarget) {
-        close();
-      }
-    };
-    document.addEventListener("mouseout", onDocumentOut);
-    const panel = panelRef.current;
-    if (openId && panel) {
-      panel.addEventListener("mouseleave", close);
-    }
-    return () => {
-      grid?.removeEventListener("mouseleave", close);
-      document.removeEventListener("mouseout", onDocumentOut);
-      panel?.removeEventListener("mouseleave", close);
-    };
-  }, [openId, close]);
+  }, [onOpenChange]);
 
   useEffect(() => {
     if (!openId) {
@@ -169,84 +159,42 @@ export function ManualCards({ className }: { className?: string }) {
       }
     };
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
     };
   }, [openId, close]);
 
-  const openOnHover = (id: CardId) => {
-    if (
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(hover: none)").matches
-    ) {
-      return;
-    }
-    setOpenId(id);
-  };
-
-  const openCard = CARDS.find((card) => card.id === openId);
-
   return (
-    <div
-      ref={gridRef}
-      data-testid="manual-cards"
-      className={cn("grid gap-4 py-8 md:grid-cols-2", className)}
-    >
-      {CARDS.map((card) => (
-        <div
-          key={card.id}
-          id={card.id}
-          className="group scroll-mt-4 border border-ink/15 bg-paper"
-        >
-          <button
-            type="button"
-            aria-expanded={openId === card.id}
-            aria-haspopup="dialog"
-            onMouseEnter={() => openOnHover(card.id)}
-            onFocus={() => openOnHover(card.id)}
-            onClick={() => setOpenId(openId === card.id ? null : card.id)}
-            className="flex w-full items-baseline gap-3 px-5 py-4 text-left"
-          >
-            <span className="font-mono text-xs tracking-widest opacity-70">
-              {card.number}
-            </span>
-            <span className="block min-w-0 flex-1 font-medium leading-snug">
-              {card.title}
-            </span>
-            <span
-              aria-hidden="true"
-              className="plus shrink-0 font-mono text-lg leading-none opacity-70"
-            >
-              +
-            </span>
-          </button>
-        </div>
-      ))}
-
-      {openCard && (
-        <div className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8">
-          <button
-            type="button"
-            aria-label="Close dialog"
-            onClick={close}
-            className="absolute inset-0 cursor-default bg-ink/40"
-          />
-          <div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={openCard.title}
-            className="modal-panel relative max-h-[85vh] w-full max-w-2xl overflow-y-auto border border-ink/15 bg-paper px-6 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-5"
-          >
-            <div className="text-sm leading-relaxed">
-              <CardBody id={openCard.id} />
-            </div>
-          </div>
-        </div>
+    <div data-testid="manual-cards" className={cn("pt-4 pb-8", className)}>
+      {!openId && (
+        <p className="feature-hint mb-4 border border-dashed border-ink/15 px-5 py-6 text-center font-mono text-xs tracking-widest opacity-70">
+          Select a <span className="font-bold">feature</span> to read the
+          details
+        </p>
       )}
+
+      <div
+        data-testid="feature-detail"
+        className={cn("grid", openId ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}
+      >
+        <div className="overflow-hidden">
+          <section
+            id="feature-panel"
+            aria-hidden={!openId}
+            inert={!openId}
+            className={cn(
+              "scroll-mt-4 border border-ink/15 bg-paper px-5 py-6 text-sm leading-relaxed sm:px-8 sm:py-8",
+              !openId && "invisible",
+            )}
+          >
+            {openId && (
+              <div key={openId}>
+                <CardBody id={openId} />
+              </div>
+            )}
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
