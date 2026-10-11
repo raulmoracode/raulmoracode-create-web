@@ -1,66 +1,58 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ManualCards } from "../components/manual-cards";
 
 afterEach(cleanup);
 
 describe("ManualCards", () => {
-  it("renders four cards without open dialogs", () => {
-    render(<ManualCards />);
-    const buttons = screen.getAllByRole("button", { expanded: false });
-    expect(buttons).toHaveLength(4);
-    for (const title of [
-      "What lands in a new project",
-      "Opinions, kept fixed",
-      "Make it yours",
-      "Reference ledger",
-    ]) {
-      expect(screen.getByText(title)).toBeDefined();
-    }
-    expect(screen.queryByRole("dialog")).toBeNull();
+  it("renders with hidden panel when openId is null", () => {
+    render(<ManualCards openId={null} />);
+    const panel = document.getElementById("feature-panel");
+    expect(panel?.tagName).toBe("SECTION");
+    expect(panel?.getAttribute("aria-hidden")).toBe("true");
+    expect(panel?.classList.contains("invisible")).toBe(true);
+    expect(
+      screen.getByText((content, element) => {
+        const hasText = (el: Element) =>
+          el.textContent === "Select a feature to read the details";
+        return element?.tagName.toLowerCase() === "p" && hasText(element);
+      }),
+    ).toBeDefined();
   });
 
-  it("opens the dialog on hover", () => {
-    render(<ManualCards />);
-    const button = screen.getByRole("button", {
-      name: /Opinions, kept fixed/,
-    });
-    fireEvent.mouseEnter(button);
-    expect(screen.getByRole("dialog")).toBeDefined();
+  it("shows opinions content when openId is opinions", () => {
+    render(<ManualCards openId="opinions" />);
+    const panel = document.getElementById("feature-panel");
+    expect(panel?.getAttribute("aria-hidden")).toBe("false");
+    expect(panel?.classList.contains("invisible")).toBe(false);
+    expect(screen.getByText(/Workshop rules/)).toBeDefined();
     expect(screen.getByText("pnpm only, exact versions.")).toBeDefined();
+    expect(
+      screen.queryByText((content, element) => {
+        const hasText = (el: Element) =>
+          el.textContent === "Select a feature to read the details";
+        return element?.tagName.toLowerCase() === "p" && hasText(element);
+      }),
+    ).toBeNull();
   });
 
-  it("closes the dialog on escape", () => {
-    render(<ManualCards />);
-    const button = screen.getByRole("button", {
-      name: /Opinions, kept fixed/,
-    });
-    fireEvent.click(button);
-    expect(screen.getByRole("dialog")).toBeDefined();
+  it("switches content when openId changes", () => {
+    const { rerender } = render(<ManualCards openId="opinions" />);
+    expect(screen.getByText(/Workshop rules/)).toBeDefined();
+    expect(screen.queryByText(/Fork-first/)).toBeNull();
+
+    rerender(<ManualCards openId="yours" />);
+    expect(screen.getByText(/Fork-first/)).toBeDefined();
+    expect(screen.queryByText(/Workshop rules/)).toBeNull();
+  });
+
+  it("closes panel on escape key", () => {
+    const onOpenChange = vi.fn();
+    render(<ManualCards openId="inside" onOpenChange={onOpenChange} />);
+
+    expect(screen.getByText(/From @raulmoracode\/create/)).toBeDefined();
+
     fireEvent.keyDown(document, { key: "Escape" });
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("closes the dialog when leaving the panel", () => {
-    render(<ManualCards />);
-    const button = screen.getByRole("button", {
-      name: /Make it yours/,
-    });
-    fireEvent.mouseEnter(button);
-    const dialog = screen.getByRole("dialog");
-    expect(dialog).toBeDefined();
-    fireEvent.mouseLeave(dialog);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("closes the dialog when leaving the window", () => {
-    render(<ManualCards />);
-    const button = screen.getByRole("button", {
-      name: /Reference ledger/,
-    });
-    fireEvent.click(button);
-    expect(screen.getByRole("dialog")).toBeDefined();
-    fireEvent.mouseOut(document, { relatedTarget: null });
-    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(onOpenChange).toHaveBeenCalledWith(null);
   });
 });

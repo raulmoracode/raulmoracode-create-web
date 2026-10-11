@@ -1,38 +1,65 @@
-import { CopyInstallCommand } from "./components/copy-install-command";
+import { useState } from "react";
+import type { CardId } from "./components/manual-cards";
 import { ManualCards } from "./components/manual-cards";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
-import { PipelineDrawing } from "./components/pipeline-drawing";
+
+const TRIGGER =
+  "cursor-pointer underline decoration-solid underline-offset-4 transition-colors duration-200 hover:text-brand hover:decoration-brand";
 
 function App() {
+  const [openId, setOpenId] = useState<CardId | null>(null);
+
   return (
-    <div className="blueprint-grid min-h-screen bg-paper text-ink">
+    <div className="min-h-screen bg-paper text-ink">
       <main className="mx-auto max-w-3xl px-6 pb-16">
-        <section aria-labelledby="colophon" className="pt-24">
-          <PartOfRaulmoracode project="create" highlightColor="#118C4F" />
-          <h1
-            id="colophon"
-            className="mt-6 text-3xl font-semibold text-balance"
-          >
-            An internal tool, kept in the open
-          </h1>
-          <p className="mt-4 max-w-prose leading-relaxed">
-            My internal scaffolding tool: one command, the same stack every
-            time. Follow a run in the drawing, open the cards for the details,
-            and grab the install command at the bottom. Built to my taste — fork
-            it and shape your own. No support promises.
-          </p>
-        </section>
+        <div className="[&:has(.feature-hint:hover)_button]:text-brand [&:has(.feature-hint:hover)_button]:decoration-brand">
+          <section aria-labelledby="colophon" className="pt-24">
+            <PartOfRaulmoracode
+              project="create"
+              highlightColor="var(--color-brand)"
+            />
+            <p className="mt-4 max-w-prose leading-relaxed">
+              Terminal tool to start web projects faster.{" "}
+              <button
+                type="button"
+                onClick={() => setOpenId(openId === "yours" ? null : "yours")}
+                className={TRIGGER}
+              >
+                Fork
+              </button>{" "}
+              it to adapt to your needs. The{" "}
+              <button
+                type="button"
+                onClick={() => setOpenId(openId === "inside" ? null : "inside")}
+                className={TRIGGER}
+              >
+                Stack
+              </button>{" "}
+              comes with everything pinned exact.{" "}
+              <button
+                type="button"
+                onClick={() =>
+                  setOpenId(openId === "opinions" ? null : "opinions")
+                }
+                className={TRIGGER}
+              >
+                Opinions
+              </button>{" "}
+              are baked in so you don't decide. The{" "}
+              <button
+                type="button"
+                onClick={() =>
+                  setOpenId(openId === "reference" ? null : "reference")
+                }
+                className={TRIGGER}
+              >
+                Reference
+              </button>{" "}
+              section has commands, requirements, and guides.
+            </p>
+          </section>
 
-        <section id="run" className="pb-8 pt-4">
-          <div>
-            <PipelineDrawing />
-          </div>
-        </section>
-
-        <ManualCards />
-
-        <div className="flex justify-center pb-4">
-          <CopyInstallCommand command="npm install -g @raulmoracode/create" />
+          <ManualCards openId={openId} onOpenChange={setOpenId} />
         </div>
       </main>
     </div>
