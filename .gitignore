@@ -29,3 +29,6 @@ package-lock.json
 .env.*
 .next
 coverage
+# Keep .env.example trackable (negates .env.*)
+!.env.example
+!.vscode/settings.json
