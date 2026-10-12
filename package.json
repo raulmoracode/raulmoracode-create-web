@@ -15,12 +15,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "check": "biome check .",
     "format": "biome format --write .",
     "lint": "biome lint .",
     "test": "vitest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "tsc -b"
   },
   "engines": {
     "node": ">=24"

@@ -48,12 +48,11 @@ Do not change package managers unless explicitly requested.
 
 ```text
 ├── index.html            # tab title + favicon (raulmoracode branding)
-├── .github/workflows/    # CI (install, check, test, build)
+├── .github/workflows/    # CI (install, check, typecheck, test, build)
 ├── src/
 │   ├── main.tsx     # entry point
 │   ├── App.tsx      # root component
 │   ├── index.css    # Tailwind entry point
-│   ├── App.css      # root styles
 │   ├── components/  # shadcn components land here
 │   ├── hooks/       # registry hooks land here
 │   ├── lib/
@@ -72,7 +71,7 @@ Do not change package managers unless explicitly requested.
 ├── package.json          # scripts and dependencies (exact versions)
 ├── pnpm-workspace.yaml   # minimumReleaseAge policy + excludes
 ├── raulmoracode.json     # CLI manifest (framework, selection, hashes)
-├── LICENSE               # MIT license
+├── LICENSE               # project license
 ├── CHANGELOG.md          # project changelog
 └── AGENTS.md             # guidelines for AI coding agents
 ```
@@ -87,6 +86,7 @@ Available scripts (see `package.json` for the full list):
 
 - `pnpm dev` — start the development server.
 - `pnpm build` — create a production build.
+- `pnpm typecheck` — run the TypeScript type checker.
 - `pnpm check` — run the formatter and linter check.
 - `pnpm format` — apply formatting.
 - `pnpm lint` — run the linter.
@@ -244,31 +244,38 @@ Titles follow Conventional Commits: `<type>: <description>` (same types as commi
 
 Keep the branch focused and open the pull request against `main`.
 
+Write the pull request title and body in English.
+
 Use this body template:
 
 ```markdown
+<!-- Write the PR body in English -->
+
 ## Summary
 
-<1-2 sentences>
+<!-- Briefly describe what this PR does and why. -->
 
 ## Changes
 
-- ...
+- 
 
 ## How to test
 
-1. ...
-2. ...
+1. 
+2. 
 
 ## Validation
 
 - [ ] `pnpm check`
 - [ ] `pnpm test`
+- [ ] `pnpm typecheck`
 - [ ] `pnpm build`
 
 ## Breaking changes
 
-None (or describe the migration).
+<!-- List any breaking changes, or write "None". -->
+
+None
 ```
 
 ## Changelog
@@ -338,6 +345,7 @@ The CI workflow (`.github/workflows/ci.yml`) validates the project on every push
 
 - `pnpm install` — dependencies resolve correctly
 - `pnpm check` — code is formatted and linted
+- `pnpm typecheck` — the TypeScript checker passes
 - `pnpm test` — tests pass
 - `pnpm build` — production build succeeds
 

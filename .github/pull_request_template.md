@@ -1,3 +1,5 @@
+<!-- Write the PR body in English -->
+
 ## Summary
 
 <!-- Briefly describe what this PR does and why. -->
@@ -15,6 +17,7 @@
 
 - [ ] `pnpm check`
 - [ ] `pnpm test`
+- [ ] `pnpm typecheck`
 - [ ] `pnpm build`
 
 ## Breaking changes

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "cliVersion": "1.0.9",
+  "cliVersion": "1.1.1",
   "framework": "vite",
   "selection": {
     "tailwind": true,
@@ -11,6 +11,7 @@
     "forms": false,
     "biome": true,
     "testing": true,
+    "playwright": false,
     "husky": true,
     "vscode": true
   },
@@ -18,18 +19,20 @@
   "githubUrl": "https://github.com/raulmoracode/raulmoracode-create-web",
   "files": {
     ".editorconfig": "49e53afa4ae47ecc7446a8b471792dbbc91575262b3d3b161b063801aa096f5f",
-    ".github/pull_request_template.md": "0365535b4f085b00c93acd44935127f375bfdc95fe0f2f9856519350e56bc4a2",
-    ".github/workflows/ci.yml": "256f73edd89545aeed5605bc86c76b2939278c24d8303f339600fd3fe4e9c5f0",
+    ".env.example": "eb21cb14c8363e5b3eef4424b224a45ce44b182e22cd01c2043f41167d074a0b",
+    ".github/dependabot.yml": "eefdce458da1e5bd19a266a41faf906f62d6261d30c18b38b9f240c919083760",
+    ".github/pull_request_template.md": "2567889648f25f7e25c0517d556ffa92145cc53faea31261a986ef4b027dbb8b",
+    ".github/workflows/ci.yml": "6558d01928db7a8b9e02f415b551e721f164d4622959621c7e217ae0519eb255",
     ".husky/commit-msg": "fcfc227fe0e950deadcef148e6b460d3570b2d722ed523786a63ab00e73155c9",
     ".husky/pre-commit": "88c48578c3e56edabb183422aba2d684698279008a5b460ecd95b636b66a1776",
     ".nvmrc": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
     ".vscode/extensions.json": "3fe4a3de8d4a6b17f29da24e9b6014cf285ed2fd0d6b9c40b6a1a7b59f42a370",
     ".vscode/settings.json": "ffb8e8b922303cff65a10548bee97c8e19be283dab7e7d04be6f35c9a892cb3d",
-    "AGENTS.md": "ee8a1e8905e08f25b4ffc2bcb066325becdc00e25f35dfe4c07870f4d395f871",
+    "AGENTS.md": "b05d9014b5dc507c95be8679641e77fb574add98eac0bf311ac60401da6bf7f8",
     "biome.json": "d04ff787b02e42d7f60e1bb3db16743b7895c88882baf07da0840dd12d036e6d",
     "commitlint.config.ts": "101001638e174a3b7e9b426ae05db040fa10d04c85d3b01924d9193be16ca27e",
     "components.json": "53088f67d9da24b1b5019a1896b049c905de929116f267e54d9d4f01361a841f",
-    "vite.config.ts": "1b7aca9b741d0e37ef0e3f3e5b485ff891c188a00e127e6718bdffcbd619b6e5",
+    "vite.config.ts": "465a100c84374c0e56dc719bc958ac02b729e235b741c5aaddcbae2ab2fb2c23",
     "vitest.config.ts": "0a14425b633036d289441bd102de98c5ad088c781f0110bb825594b1b5dcba87"
   },
   "dependencies": {
